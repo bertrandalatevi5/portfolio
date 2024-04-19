@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ALATEVI Bertrand - Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crete+Round:ital@0;1&family=Roboto&family=Ubuntu&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <!-- header-->
+    <header id="header">
+        <!--navbar-->
+        <nav class="navbar navbar-expand-lg w-100 fixed-top">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#header"><span>Bertrand Alatevi</span></a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa-solid fa-bars"></i>
+              </button>
+              <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title text-white fw-bold fs-5" id="offcanvasWithBothOptionsLabel">Menu</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="log navbar-nav ms-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="index.html#header">Acceuil</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#about">A propos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#services">Services</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#skills">Compétences</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#projets">Projets</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html#contact">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+    
+              </div>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <div class="container">
+                <div id="carouselExampleCaptions" class="carousel slide">
+                    <div class="carousel-indicators">
+                      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+                      <div class="carousel-item active">
+                        <img src="images/shopdesk.jpg" class="d-block w-100 object-fit-cover" alt="...">
+                        <div class="carousel-caption d-none d-md-block">
+                          <h6>Desktop</h6>
+                        </div>
+                      </div>
+                      <div class="carousel-item">
+                        <img src="images/shopmobile2.jpg" class="d-block w-100 object-fit-cover" alt="...">
+                        <div class="carousel-caption d-none d-md-block">
+                          <h6>Mobile</h6>
+                        </div>
+                      </div>
+                      <div class="carousel-item">
+                        <img src="images/shoptablette.jpg" class="d-block w-100 object-fit-cover" alt="...">
+                        <div class="carousel-caption d-none d-md-block">
+                          <h6>Tablettes</h6>
+                        </div>
+                      </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+                <div class="mt-4">
+                    <p>
+                        FredyShop est un site e-commerce que j'ai développé en utilisant HTML,
+                         CSS et Bootstrap pour le frontend, et PHP avec MySQL pour le backend. 
+                         L'objectif principal de ce site est de permettre aux utilisateurs de 
+                         parcourir une large gamme de produits et de passer des commandes en ligne 
+                         de manière pratique.
+                    </p>
+                    <p>
+                        Le frontend du site est conçu de manière à offrir une expérience utilisateur
+                         intuitive et attrayante, avec une navigation fluide et des pages bien organisées. 
+                         Les utilisateurs peuvent facilement parcourir les différents produits, afficher 
+                         les détails de chaque produit et ajouter des articles à leur panier. 
+                         <br><br>
+                         Côté backend, j'ai mis en place une interface administrateur qui permet à 
+                         l'administrateur du site de gérer efficacement le catalogue de produits. 
+                         L'administrateur peut ajouter de nouveaux produits, mettre à jour les informations 
+                         des produits existants, supprimer des produits obsolètes et afficher les commandes
+                          passées par les clients.
+                          <br>
+                        L'utilisation de PHP et MySQL permet une gestion robuste des données, 
+                        avec des fonctionnalités telles que la validation des formulaires, la 
+                        sécurisation des requêtes SQL et la gestion des sessions utilisateur.
+                         De plus, le site intègre des fonctionnalités de sécurité pour protéger 
+                         les données sensibles des utilisateurs et des transactions en ligne.
+
+                    </p>
+                </div>
+            </div>
+        </section>
+        <section id="projets" class="py-5">
+            <div class="container">
+                <hr>
+                <h2 class="fw-bold text-center">Mes réalisations</h2>
+                <div class="row mt-5">
+                    <div class="col-md-4  mb-5">
+                        <div class="card shadow">
+                            <a href="">
+                                <div class="image"> 
+                                    <img src="images/portfolio.jpg" class="card-img-top object-fit-cover" alt="">
+                                    <h6 class="text-center">Web Development</h6>
+                                </div>
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">Mon Portfolio</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-5">
+                        <div class="card shadow">
+                            <a href="projet2.html">
+                                <div class="image"> 
+                                    <img src="images/fredyshop2.jpg" class="card-img-top object-fit-cover" alt="">
+                                    <h6 class="text-center">Web Development</h6>
+                                </div>
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">FredyShop (site e-commerce)</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-5">
+                        <div class="card shadow">
+                            <a href="projet3.html">
+                                <div class="image"> 
+                                    <img src="images/fredyfood3.jpg" class="card-img-top object-fit-cover" alt="">
+                                    <h6 class="text-center">Web Development</h6>
+                                </div>
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">FredyFood</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-md-4 mb-5">
+                        <div class="card shadow">
+                            <a href="projet4.html">
+                                <div class="image"> 
+                                    <img src="images/work-4.jpg" class="card-img-top object-fit-cover" alt="">
+                                    <h6 class="text-center">App Development</h6>
+                                </div>
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">Gestionnaires de contact</h5>
+                              </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-5">
+                        <div class="card shadow">
+                            <a href="projet5.html">
+                                <div class="image"> 
+                                    <img src="images/1.jpg" class="card-img-top object-fit-cover" alt="">
+                                    <h6 class="text-center">App Development</h6>
+                                </div>
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">E-commerce</h5>
+                              </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-5">
+                        <div class="card shadow">
+                            <a href="projet6.html">
+                                <div class="image"> 
+                                    <img src="images/2.jpg" class="card-img-top object-fit-cover" alt="">
+                                    <h6 class="text-center">App Development</h6>
+                                </div>
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">E-commerce</h5>
+                              </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+    <style>
+        main{
+            margin-bottom: 100px;
+        }
+        .carousel-item img {
+            max-height: 500px;
+        }
+    </style>
+    <footer id="footer" class="border-top">
+        <div class="container text-center">
+            <h6 class="fs-3 text-white mb-4 fw-bold">Bertrand Koffi Alatevi</h6>
+            <div>
+                <ul>
+                    <li>
+                      <a href="#header">Acceuil</a>
+                    </li>
+                    <li>
+                      <a href="#about">A propos</a>
+                    </li>
+                    <li>
+                      <a href="#skills">Compétences</a>
+                    </li>
+                    <li>
+                      <a href="#projets">Projets</a>
+                    </li>
+                    <li>
+                      <a href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="personal_social mb-5">
+                <a href="#" title="facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" title="twitter"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#" title="linkeldin"><i class="fa-brands fa-linkedin-in"></i></a>
+                <a href="#" title="github"><i class="fa-brands fa-github"></i></a>
+            </div>
+            <p>Copyright © 2023 Tous droits réservés | Made by <span class="nom">Alatevi Koffi Bertrand</span></p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <a href="https://wa.me/22892188746" class="btn back-to-top" title="Retour en haut"><i class="fa-brands fa-whatsapp fs-4"></i></a>
+</body>
+</html>

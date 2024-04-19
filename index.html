@@ -1,0 +1,630 @@
+<!-- <?php
+session_start();
+require_once 'db_connect.php';
+ $error_nom = $error_prenom = $error_email = $error_message = "";
+ $nom = $prenom = $email = $message = "";
+ 
+ 
+ if(isset($_SESSION['error']))
+ {
+    if(isset($_SESSION['error']['nom'])){
+        $error_nom = $_SESSION['error']['nom'];
+    }
+    if(isset($_SESSION['error']['prenom'])){
+        $error_prenom = $_SESSION['error']['prenom'];
+    }
+    if(isset($_SESSION['error']['email'])){
+        $error_email = $_SESSION['error']['email'];
+    }
+    if(isset($_SESSION['error']['message'])){
+        $error_message = $_SESSION['error']['message'];
+    }
+ }
+
+ if(isset($_SESSION['data']))
+ {
+    if(isset($_SESSION['data']['nom'])){
+        $nom = $_SESSION['data']['nom'];
+    }
+    if(isset($_SESSION['data']['prenom'])){
+        $prenom = $_SESSION['data']['prenom'];
+    }
+    if(isset($_SESSION['data']['email'])){
+        $email = $_SESSION['data']['email'];
+    }
+    if(isset($_SESSION['data']['message'])){
+        $message = $_SESSION['data']['message'];
+    }
+ }
+
+ $error = $data = [];
+$success_message = "";
+$emailText = "";
+$mailTo = "alatevikoffibertrand@gmail.com";
+
+// insertion contact
+if(isset($_POST['submit']))
+{
+    // nom
+    if(empty($_POST['nom']))
+    {
+        $error += ['nom' => "veuillez saisir votre nom"] ;
+    }else{
+        $nom = mysqli_real_escape_string ($db_connect, $_POST['nom']);
+        $data += ['nom' => $nom];
+        $emailText .= "Nom : $nom";
+    }
+    // prenom
+    if(empty($_POST['prenom']))
+    {
+        $error += ['prenom' => "veuillez saisir votre prénom"] ;
+    }else{
+        $prenom = mysqli_real_escape_string ($db_connect, $_POST['prenom']);
+        $data += ['prenom' => $prenom];
+        $emailText .= " Prénom : $prenom";
+    }
+
+    // email
+    if(empty($_POST['email']))
+    {
+        $error += ['email' => "Veuillez saisir votre adresse e-mail"] ;
+    }
+    //format de email
+    elseif(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
+    {
+        $error += ['email' => "adresse e-mail invalid"] ;
+    }
+    else{
+        $email = mysqli_real_escape_string ($db_connect, $_POST['email']);
+        $data += ['email' => $email];
+        $emailText .= " Email : $email";
+    }
+    // message
+    if(empty($_POST['message']))
+    {
+        $error += ['message' => "veuillez saisir votre message"] ;
+    }else{
+        $message = mysqli_real_escape_string ($db_connect, $_POST['message']);
+        $data += ['message' => $message];
+        $emailText .= " Message : $message";
+    }
+
+    // insertion a la db
+    if(empty($error)){
+        $query = ("INSERT into messages (nom, prenom, email, message) values ('$nom', '$prenom', '$email', '$message')");
+   
+        if(mysqli_query ($db_connect, $query)) 
+        {
+                // send mail
+                $header  = "From: $nom $prenom <$email>\r\nReply-To: $email ";
+                $success = mail($mailTo, "Un message venant de votre portfolio", $emailText, $header);
+                if($success){
+                    $success_message = "Merci de nous avoir contacter, votre message a bien été envoyé !!!";
+                    $nom = $prenom = $email = $message = "";
+                    $error_nom = $error_prenom = $error_email = $error_message = "";
+                }else{
+                    echo "votre message n'a pas été envoyé !!!";
+                }
+                
+        }  
+        else  {
+                echo "Erreur lors de l'insertion dans la base de données." ;
+        }
+        
+    }else{
+        $_SESSION ['error' ] = $error;
+        $_SESSION ['data' ] = $data;
+
+    }
+}
+
+?> -->
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ALATEVI Bertrand - Portfolio</title>
+    <link rel="icon" href="documents/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crete+Round:ital@0;1&family=Roboto&family=Ubuntu&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <!-- header-->
+    <header id="header" class="py-5">
+        <!--navbar-->
+        <nav class="navbar navbar-expand-lg w-100 fixed-top">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#header"><span>Bertrand Alatevi</span></a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa-solid fa-bars"></i>
+              </button>
+              <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title text-white fw-bold fs-5" id="offcanvasWithBothOptionsLabel">Menu</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="log navbar-nav ms-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#header">Acceuil</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#about">A propos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#services">Services</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#skills">Compétences</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#projets">Projets</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#contact">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+    
+              </div>
+            </div>
+        </nav>
+        <!--banner-->
+                <div class="banner">
+                    <div class="container rounded-4 shadow fase">
+                    <div class="row gy-4 align-items-center">
+                            <div class="col-12 col-md-6 picture">
+                                <img src="images/couper003.jpg" alt="" width="100%" class="img-fluid object-fit-cover rounded-2 shadow">
+                            </div>
+                            <div class="col-12 col-md-6 description">
+                                <h6>Salut, je suis</h6>
+                                <h3>Koffi Bertrand Alatevi</h3>
+                                <h4>Developpeur Web et Mobile</h4>
+                                <p>
+                                    En tant que passionné du développement web et mobile, 
+                                    je suis un professionnel dynamique désireux d'apporter mes compétences 
+                                    aux startups et aux entreprises émergentes.
+                                </p>
+                                <ul class="list-group basic_info">
+                                    <li class="mb-3"><i class="lnr lnr-phone-handset"></i><a href="tel:(00228) 92 18 87 46">(00228) 92 18 87 46</a></li>
+                                    <li class="mb-3"><i class="lnr lnr-envelope"></i><a href="mailto:alatevikoffibertrand@gmail.com">alatevikoffibertrand@gmail.com</a></li>
+                                    <li class="mb-3"><i class="lnr lnr-home"></i><a href="https://maps.app.goo.gl/Ki5gHyxD5XP3H1hU6" target="_blank">Lomé, Togo</a></li>
+                                </ul>
+                                <a href="documents/MON-CV.pdf" download="CV ALATEVI Bertrand">
+                                    <button class="btn mt-2 mb-4">Télécharger CV</button>
+                                </a>
+                                <div class="personal_social">
+                                    <a href="https://www.facebook.com/freedy.alartey/" target="_blank" title="facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                                    <a href="https://twitter.com/BertrandAlatevi" target="_blank" title="twitter"><i class="fa-brands fa-twitter"></i></a>
+                                    <a href="https://www.linkedin.com/in/koffi-bertrand-alatevi/" target="_blank" title="linkeldin"><i class="fa-brands fa-linkedin-in"></i></a>
+                                    <a href="https://github.com/bertrandalatevi5" target="_blank" title="github"><i class="fa-brands fa-github"></i></a>
+                                </div>
+                            </div>
+                    </div>
+                    </div>
+                </div>
+    </header>
+    <!-- contenu -->
+    <main>
+        <!-- about -->
+        <section id="about">
+            <div class="container">
+                <h2 class="text-center fw-bold mb-5">A PROPOS</h2>
+                <hr width="100%" class="mb-5">
+                <div class="row">
+                    <div class="col-md-7">
+                        <p class="fw-bold mb-4">
+                            Je suis un développeur web et mobile passionné par la création d'interfaces
+                             innovantes et fonctionnelles. Après ma formation, je maîtrise les 
+                             langages et frameworks comme HTML, CSS, Bootstrap, PHP, Laravel, Dart et Flutter.
+                        </p>
+                        <p class="mb-4">
+                            Fort de mon expérience et de ma créativité, je m'efforce de concevoir des solutions
+                             numériques uniques et intuitives. Mon objectif est de collaborer avec des 
+                             entreprises innovantes pour créer des produits numériques exceptionnels 
+                             qui répondent aux besoins et aux attentes des utilisateurs. Avec une solide 
+                             expertise technique et un engagement envers l'excellence, je suis prêt à relever 
+                             de nouveaux défis passionnants dans le monde du développement web et mobile. 
+                             Découvrez mon travail et n'hésitez pas à me contacter pour discuter de vos projets !
+                        </p>
+                        <hr class="mb-4">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div>
+                                    <h6>Phone</h6>
+                                    <p class="fw-light">+228 92 18 8746</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="">
+                                    <h6>Email</h6>
+                                    <p class="fw-light">alatevikoffibertrand@gmail.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="parti">
+                            <img src="images/photo_2023-10-26_22-47-21.jpg" alt="" width="100%" height="400px" class="object-fit-cover shadow">
+                            <a href="https://www.facebook.com/freedy.alartey/" target="_blank" title="facebook"><i class="bi bi-facebook"></i></a>
+                            <a href="https://twitter.com/BertrandAlatevi" target="_blank" title="twitter"><i class="bi bi-twitter"></i></a>
+                            <a href="https://www.linkedin.com/in/koffi-bertrand-alatevi/" target="_blank" title="linkedin"><i class="bi bi-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- services -->
+        <section id="services" class="py-5 mt-5">
+            <div class="container">
+                <h2 class="mb-0 fw-bold text-white">Services</h2>
+                <h3 class="fw-light fs-5">Nos prestations de services</h3>
+                <hr class="text-white mb-3">
+                <div class="row align-items-center gy-4 mt-4 mb-5">
+                    <div class="col-12 col-md-4 text-center">
+                        <div class="feature-left">
+							<span class="icon">
+								<i class="bi bi-bar-chart"></i>
+							</span>
+							<div class="feature-copy">
+								<h3 class="mt-3">Web Design</h3>
+								<p>une esthétique moderne avec une fonctionnalité intuitive, assurant ainsi une expérience utilisateur fluide et agréable</p>
+							</div>
+						</div>
+                    </div>
+                    <div class="col-12 col-md-4 text-center">
+                        <div class="feature-left">
+							<span class="icon">
+								<i class="bi bi-card-checklist"></i>
+							</span>
+							<div class="feature-copy">
+								<h3 class="mt-3">Web Development</h3>
+								<p>concevoir, créer et maintenir des sites web et des applications web, construire des interfaces utilisateur interactives.</p>
+							</div>
+						</div>
+                    </div>
+                    <div class="col-12 col-md-4 text-center">
+                        <div class="feature-left">
+							<span class="icon">
+								<i class="bi bi-phone"></i>
+							</span>
+							<div class="feature-copy">
+								<h3 class="mt-3">App Development</h3>
+								<p>conception, maintenance d'applications spécifiquement conçues pour les appareils mobiles.</p>
+							</div>
+						</div>
+                    </div>
+                </div>
+                <div class="row align-items-center gy-4 mt-4 mb-5">
+                    <div class="col-12 col-md-4 text-center">
+                        <div class="feature-left">
+							<span class="icon">
+								<i class="bi bi-laptop"></i>
+							</span>
+							<div class="feature-copy">
+								<h3 class="mt-3">Responsive Design</h3>
+								<p>Des sites Web avec un design responsive s'adaptent automatiquement à la résolution de l'écran.</p>
+							</div>
+						</div>
+                    </div>
+                    <div class="col-12 col-md-4 text-center">
+                        <div class="feature-left">
+							<span class="icon">
+								<i class="bi bi-brush"></i>
+							</span>
+							<div class="feature-copy">
+								<h3 class="mt-3">Graphic Design</h3>
+								<p>Création d'identités visuelles et de logos, réalisation des éléments print : brochures, bâches, flyers ect.</p>
+							</div>
+						</div>
+                    </div>
+                    <div class="col-12 col-md-4 text-center">
+                        <div class="feature-left">
+							<span class="icon">
+                                <i class="bi bi-database-check"></i>
+							</span>
+							<div class="feature-copy">
+								<h3 class="mt-3">Database Management</h3>
+								<p>Conception, la mise en œuvre, la maintenance et l'administration de bases de données bases de données.</p>
+							</div>
+						</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+            <!-- expertise -->
+            <section id="skills" class="py-5 mt-5">
+                <div class="container">
+                    <h2 class="mb-0 fw-bold">Compétences</h2>
+                    <h3 class="fs-5 fw-light">Développement web, mobile et Design</h3>
+                    <div class="row align-items-center gy-4 mt-4 mb-5">
+                        <hr>
+                        <h2 class="text-center mb-5">Développement Web</h2>
+                        <div class="col-12 col-md-7">
+                            <div class="progress-outer mb-3 p-3">
+                                <span class="fw-bold">HTML & CSS</span>
+                                <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar progress-bar-info progress-bar-striped active" style="width: 90%">90%</div>
+                                </div>
+                            </div>
+                            <div class="progress-outer mb-3 p-3">
+                                <span class="fw-bold">BOOTSTRAP</span>
+                                <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar progress-bar progress-bar-info progress-bar-striped active" style="width: 90%">90%</div>
+                                </div>
+                            </div>
+                            <div class="progress-outer mb-3 p-3">
+                                <span class="fw-bold">PHP</span>
+                                <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar progress-bar progress-bar-info progress-bar-striped active" style="width: 75%">75%</div>
+                                </div>
+                            </div>
+                            <div class="progress-outer mb-3 p-3">
+                                <span class="fw-bold">LARAVEL</span>
+                                <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar progress-bar progress-bar-info progress-bar-striped active" style="width: 85%">85%</div>
+                                </div>
+                            </div>
+                            <div class="progress-outer mb-3 p-3">
+                                <span class="fw-bold">MYSQL</span>
+                                <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar progress-bar-info progress-bar-striped active" style="width: 80%">80%</div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="col-12 col-md-4 offset-md-1">
+                            <img src="images/code.jpg" alt="code image" width="100%" class="rounded-2 shadow">
+                        </div>
+
+                    </div>
+                    <div class="row align-items-center gy-4 mt-4 mb-5">
+                        <hr>
+                        <h2 class="text-center mb-5">Développement Mobile</h2>
+                        <div class="col-12 col-md-4">
+                            <img src="images/app-dev.jpg" alt="code image" width="100%" class="rounded-2 shadow">
+                        </div>
+                        <div class="col-12 col-md-7 offset-md-1">
+                            <div class="mb-3 p-3">
+                                <span class="fw-bold">FLUTTER</span>
+                                <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar progress-bar progress-bar-info progress-bar-striped active" style="width: 75%">75%</div>
+                                </div>
+                            </div>
+                            <div class="mb-3 p-3">
+                                <span class="fw-bold">DART</span>
+                                <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar progress-bar progress-bar-info progress-bar-striped active" style="width: 65%">65%</div>
+                                </div>
+                            </div>
+                            <div class="mb-3 p-3">
+                                <span class="fw-bold">PHP</span>
+                                <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar progress-bar progress-bar-info progress-bar-striped active" style="width: 75%">75%</div>
+                                </div>
+                            </div>
+                            <div class="mb-3 p-3">
+                                <span class="fw-bold">LARAVEL</span>
+                                <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar progress-bar progress-bar-info progress-bar-striped active" style="width: 85%">85%</div>
+                                </div>
+                            </div>
+                            <div class="mb-3 p-3">
+                                <span class="fw-bold">FIREBASE</span>
+                                <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar progress-bar progress-bar-info progress-bar-striped active" style="width: 50%">50%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row align-items-center gy-4 mt-4 mb-5">
+                        <hr>
+                        <h2 class="text-center mb-5">Graphic Design</h2>
+                        <div class="col-12 col-md-7">
+                            <div class="mb-3 p-3">
+                                <span class="fw-bold">ADOBE PHOTOSHOP</span>
+                                <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar progress-bar progress-bar-info progress-bar-striped active" style="width: 75%">75%</div>
+                                </div>
+                            </div>
+                            <div class="mb-3 p-3">
+                                <span class="fw-bold">ADOBE ILLUSTRATOR</span>
+                                <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar progress-bar progress-bar-info progress-bar-striped active" style="width: 50%">50%</div>
+                                </div>
+                            </div>
+                            <div class="mb-3 p-3">
+                                <span class="fw-bold">CANVA</span>
+                                <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar progress-bar progress-bar-info progress-bar-striped active" style="width: 50%">50%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4 offset-md-1">
+                            <img src="images/design.jpg" alt="code image" width="100%" class="rounded-2 shadow shadow">
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+            <!-- projets -->
+            <section id="projets" class="py-5">
+                <div class="container">
+                    <h2 class="mb-0 fw-bold">Mon portfolio</h2>
+                    <h3 class="fw-light fs-5">Mes projets</h3>
+                    <div class="row mt-5">
+                        <div class="col-md-4  mb-5">
+                            <div class="card shadow">
+                                <a href="">
+                                    <div class="image"> 
+                                        <img src="images/portfolio.jpg" class="card-img-top object-fit-cover" alt="">
+                                        <h6 class="text-center">Web Development</h6>
+                                    </div>
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold">Mon Portfolio</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-5">
+                            <div class="card shadow">
+                                <a href="projet2.html">
+                                    <div class="image"> 
+                                        <img src="images/fredyshop2.jpg" class="card-img-top object-fit-cover" alt="">
+                                        <h6 class="text-center">Web Development</h6>
+                                    </div>
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold">FredyShop (site e-commerce)</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-5">
+                            <div class="card shadow">
+                                <a href="projet3.html">
+                                    <div class="image"> 
+                                        <img src="images/fredyfood3.jpg" class="card-img-top object-fit-cover" alt="">
+                                        <h6 class="text-center">Web Development</h6>
+                                    </div>
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold">FredyFood</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-1">
+                        <div class="col-md-4 mb-5">
+                            <div class="card shadow">
+                                <a href="projet4.html">
+                                    <div class="image"> 
+                                        <img src="images/app-dev.jpg" class="card-img-top object-fit-cover" alt="">
+                                        <h6 class="text-center">App Development</h6>
+                                    </div>
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold">Gestionnaires de contact</h5>
+                                  </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-5">
+                            <div class="card shadow">
+                                <a href="projet5.html">
+                                    <div class="image"> 
+                                        <img src="images/1.jpg" class="card-img-top object-fit-cover" alt="">
+                                        <h6 class="text-center">App Development</h6>
+                                    </div>
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold">Safecart (e-commerce)</h5>
+                                  </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-5">
+                            <div class="card shadow">
+                                <a href="projet6.html">
+                                    <div class="image"> 
+                                        <img src="images/2.jpg" class="card-img-top object-fit-cover" alt="">
+                                        <h6 class="text-center">App Development</h6>
+                                    </div>
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold">Awesome Store (boutique en ligne)</h5>
+                                  </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- contact -->
+            <section id="contact" class="py-5 bg-light">
+                <div class="container">
+                    <h2 class="mb-0 fw-bold">Un projet de création web ?</h2>
+                    <h3 class="fw-light fs-5">Contactez-nous</h3>
+                        
+                    <div class="row gy-4 mt-4">
+                        <div class="col-12 col-md-5">
+                            <img src="images/contact 1 (3).jpg" alt="contact" width="100%" class="rounded-2 shadow">
+                        </div>
+                        <div class="col-12 offset-md-1 col-md-6">
+                            <form action="" method="post" class="row">
+                                <div class="col-6 my-2">
+                                    <label for="prenom" class="form-label">Prénom</label>
+                                    <input type="text" name="prenom" class="form-control" id="prenom">
+                                    <!-- <span class="text-danger"><?= $error_prenom ?></span> -->
+                                </div>
+                                <div class="col-6 my-2">
+                                    <label for="nom" class="form-label">Nom</label>
+                                    <input type="text" name="nom" class="form-control" id="nom">
+                                    <!-- <span class="text-danger"><?= $error_nom ?></span> -->
+                                </div>
+                                <div class="col-12 my-2">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" name="email" class="form-control" id="email">
+                                    <!-- <span class="text-danger"><?= $error_email ?></span> -->
+                                </div>
+                                <div class="col-12 my-2 mb-3">
+                                    <label for="message" class="form-label">Message</label>
+                                    <textarea name="message" id="message" class="form-control" cols="30" rows="3"></textarea>
+                                    <!-- <span class="text-danger"><?= $error_message ?></span> -->
+                                </div>
+                                <div class="col-12 my-2">
+                                    <button type="submit" name="submit" class="btn btn-primary w-100 mb-2">Envoyer</button>
+                                        <!-- <span class="text-success my-2">
+                                            <i><?= $success_message?></i>
+                                        </span> -->
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+    </main>
+    <!-- footer -->
+    <footer id="footer">
+        <div class="container text-center">
+            <h6 class="fs-3 text-white mb-4 fw-bold">Bertrand Koffi Alatevi</h6>
+            <div>
+                <ul>
+                    <li>
+                      <a href="#header">Acceuil</a>
+                    </li>
+                    <li>
+                      <a href="#about">A propos</a>
+                    </li>
+                    <li>
+                      <a href="#skills">Compétences</a>
+                    </li>
+                    <li>
+                      <a href="#projets">Projets</a>
+                    </li>
+                    <li>
+                      <a href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="personal_social mb-5">
+                <a href="https://www.facebook.com/freedy.alartey/" target="_blank" title="facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="https://twitter.com/BertrandAlatevi" target="_blank" title="twitter"><i class="fa-brands fa-twitter"></i></a>
+                <a href="https://www.linkedin.com/in/koffi-bertrand-alatevi/" target="_blank" title="linkeldin"><i class="fa-brands fa-linkedin-in"></i></a>
+                <a href="https://wa.me/22892188746" target="_blank" title="whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
+                <a href="https://github.com/bertrandalatevi5" target="_blank" title="github"><i class="fa-brands fa-github"></i></a>
+            </div>
+            <p>Copyright © 2024 Tous droits réservés | Made by <span class="nom">Alatevi Koffi Bertrand</span></p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <a href="https://wa.me/22892188746" class="btn back-to-top" title="Discussion whatsapp"><i class="fa-brands fa-whatsapp fs-4"></i></a>
+</body>
+</html>
+<!-- <?php unset($_SESSION['error']);unset($_SESSION['data'])?> -->
